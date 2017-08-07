@@ -21,9 +21,9 @@
 	OLED_Init();
 	OLED_Display_On();
 	moto_io_init();
-	Pid_set(&Weiyi,2,0,0);
-	Pid_set(&Angle,8,0,0);
-	TIM5_PWM_Init(9999,0);//不分频。PWM频率=72000/(899+1)=80Khz 
+//	Pid_set(&y,2,0,0);
+//	Pid_set(&x,8,0,0);
+	TIM5_PWM_Init(19999,71);//720分频，50HZ 周期20ms
 	TIM3_Int_Init(4999,71);
   
    	while(1)

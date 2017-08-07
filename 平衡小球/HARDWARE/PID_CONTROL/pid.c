@@ -1,6 +1,9 @@
 #include "pid.h"
 
-PID_Date Weiyi={0,0,0,0,0,0,0,0,0,0},Angle={0,0,0,0,0,0,0,0,0,0};
+PID_Date locaPID_y={0,0,0,0,0,0,0,0,0,0};
+PID_Date locaPID_x={0,0,0,0,0,0,0,0,0,0};
+PID_Date speedPID_y={0,0,0,0,0,0,0,0,0,0};
+PID_Date speedPID_x={0,0,0,0,0,0,0,0,0,0};
 
 
 

@@ -6,7 +6,8 @@
 
 int now_y = 0,now_x = 0;
 int last_y = 0,last_x = 0;
-float aim_weiyi = 0,aim_angle = 0,moto_dif = 0,moto1 = 0,moto2 = 0;
+int speed_x = 0,speed_y = 0;
+float aim_y = 0,aim_x = 0,moto_dif = 0,duty_x = 0,duty_y = 0;
 char dis[20];
 u8 start_flag = 0;
 void TIM3_Int_Init(u16 arr,u16 psc)
@@ -47,10 +48,10 @@ void TIM3_IRQHandler(void)   //TIM3中断
 			mode1();
 			clear(dis,20);
 			sprintf(dis,"%6d",now_x);	
-			OLED_ShowString(80,0,dis);
+			OLED_ShowString(80,0,(u8 *)dis);
 			clear(dis,20);
 			sprintf(dis,"%6d",now_y);	
-			OLED_ShowString(80,16,dis);			
+			OLED_ShowString(80,16,(u8 *)dis);			
 			OLED_Refresh_Gram();
 			
 			
@@ -63,49 +64,64 @@ void TIM3_IRQHandler(void)   //TIM3中断
 
 void mode1(void)
 {
-	PID_calculate(Weiyi,aim_weiyi,(float)now_y,&aim_angle);
-	PID_calculate(Angle,aim_angle,(float)now_x,&moto_dif);
-	moto_driver(moto_dif);
+	//PID_calculate(y,aim_y,(float)now_y,&aim_x);
+	//PID_calculate(x,aim_x,(float)now_x,&moto_dif);
+	PID_calculate(locaPID_x,aim_x,(float)now_x,&duty_x);
+	PID_calculate(speedPID_x,aim_x,(float)speed_x,&duty_x);
+	PID_calculate(locaPID_y,aim_y,(float)now_y,&duty_y);
+	PID_calculate(speedPID_y,aim_y,(float)speed_y,&duty_y);
+	
+	moto_driver(duty_x,duty_y);
 
 
 
 }
 
-void moto_driver(float difference)
+void moto_driver(float duty_x,float duty_y)
 {
-	moto1 = 7000 - difference;
-	moto2 = 7320 + difference;
+	u16 moto_x,moto_y;
+	moto_x = lowestDuty_x+(HighestDuty_x - lowestDuty_x)*duty_x*1000;
+	moto_y = lowestDuty_y+(HighestDuty_y - lowestDuty_y)*duty_y*1000;
 
-	if(moto1>9999)moto1=9999;
-	else if(moto1<1000)moto1=1000;
-	if(moto2>9999)moto2=9999;
-	else if(moto2<1000)moto2=1000;
-	TIM_SetCompare1(TIM5,(int)moto1);	
-	TIM_SetCompare2(TIM5,(int)moto2);	
+	
+	moto_x = LIMIT(moto_x,lowestDuty_x,HighestDuty_x);
+	moto_y = LIMIT(moto_y,HighestDuty_y,lowestDuty_y);
+		
+	
+	TIM_SetCompare1(TIM5,(int)moto_x);	
+	TIM_SetCompare2(TIM5,(int)moto_y);	
 	
 }
-
+s16 LIMIT(s16 a,s16 min,s16 max)
+{
+	if(a<min)
+		return min;
+	else if(a>max)
+		return max;
+	else
+		return a;
+}
 void moto_io_init(void)
 {
 	GPIO_InitTypeDef  GPIO_InitStructure;
  	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB|RCC_APB2Periph_GPIOD, ENABLE);	 //使能PA,PD端口时钟
 	
-	 GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5;				 //LED0-->PA.8 端口配置
-	 GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
-	 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
-	 GPIO_Init(GPIOB, &GPIO_InitStructure);					 //根据设定参数初始化GPIOA.8
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3|GPIO_Pin_4|GPIO_Pin_5;				 //LED0-->PA.8 端口配置
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
+	GPIO_Init(GPIOB, &GPIO_InitStructure);					 //根据设定参数初始化GPIOA.8
 	
-	 GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;				 //LED0-->PA.8 端口配置
-	 GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
-	 GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
-	 GPIO_Init(GPIOD, &GPIO_InitStructure);					 //根据设定参数初始化GPIOA.8
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2;				 //LED0-->PA.8 端口配置
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 		 //推挽输出
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;		 //IO口速度为50MHz
+	GPIO_Init(GPIOD, &GPIO_InitStructure);					 //根据设定参数初始化GPIOA.8
 	
 	
-	 GPIO_SetBits(GPIOD,GPIO_Pin_2);						 //PA.8 输出高
-	 GPIO_SetBits(GPIOB,GPIO_Pin_4);						 //PA.8 输出高
-	 GPIO_ResetBits(GPIOB,GPIO_Pin_3|GPIO_Pin_5);						 //PA.8 输出高
-	
+	GPIO_SetBits(GPIOD,GPIO_Pin_2);						 //PA.8 输出高
+	GPIO_SetBits(GPIOB,GPIO_Pin_4);						 //PA.8 输出高
+	GPIO_ResetBits(GPIOB,GPIO_Pin_3|GPIO_Pin_5);						 //PA.8 输出高
+	data_read();
 
 }
 	
@@ -116,30 +132,31 @@ void data_read(void)
 			start_flag=1;
 			if(USART_RX_BUF[0]==0xaa && USART_RX_BUF[1]==0xff)
 			{
-				last_y=now_y;
-				last_x=now_x;
+				
 					
 					
 				now_x = ((USART_RX_BUF[2]<<8)|USART_RX_BUF[3]);				   
 				now_y = ((USART_RX_BUF[4]<<8)|USART_RX_BUF[5]);	
 					
-				if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
-				if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
+				//if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
+				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
+				speed_x = now_x - last_x;
+				speed_y = now_y - last_y;
 				
-				
-				if((now_y - last_y)>50 || (last_y - now_y)>50)
-				{
-					now_y = last_y;
-				}
+//				if((now_y - last_y)>50 || (last_y - now_y)>50)
+//				{
+//					now_y = last_y;
+//				}
 				//else	now_y = (10*now_y + 90*last_y)/100;
 					
-				if((now_x - last_x)>50 || (last_x - now_x)>50)
-				{
-					now_x = last_x;
-				}
+//				if((now_x - last_x)>50 || (last_x - now_x)>50)
+//				{
+//					now_x = last_x;
+//				}
 //				now_x = (10*now_x + 90*last_x)/100;
 //				now_y = (10*now_y + 90*last_y)/100;
-				
+				last_y=now_y;
+				last_x=now_x;
 			}				
 			USART_RX_STA=0;
 			
