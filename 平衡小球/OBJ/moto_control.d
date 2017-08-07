@@ -36,3 +36,4 @@
 ..\obj\moto_control.o: ..\HARDWARE\PID_CONTROL\pid.h
 ..\obj\moto_control.o: ..\HARDWARE\LED\led.h
 ..\obj\moto_control.o: ..\HARDWARE\OLED\oled.h
+..\obj\moto_control.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

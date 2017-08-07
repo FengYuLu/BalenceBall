@@ -7,58 +7,63 @@
 int now_y = 0,now_x = 0;
 int last_y = 0,last_x = 0;
 int speed_x = 0,speed_y = 0;
-float aim_y = 0,aim_x = 0,moto_dif = 0,duty_x = 0,duty_y = 0;
+float aim_y = 56,aim_x = 71,moto_dif = 0,duty_x = 0,duty_y = 0;
 char dis[20];
 u8 start_flag = 0;
-void TIM3_Int_Init(u16 arr,u16 psc)
+void TIM5_Int_Init(u16 arr,u16 psc)
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
 
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE); //时钟使能
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM5, ENABLE); //时钟使能
 
 	TIM_TimeBaseStructure.TIM_Period = arr; //设置在下一个更新事件装入活动的自动重装载寄存器周期的值	 计数到5000为500ms
 	TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  10Khz的计数频率  
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-	TIM_TimeBaseInit(TIM3, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+	TIM_TimeBaseInit(TIM5, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
  
 	TIM_ITConfig(  //使能或者失能指定的TIM中断
-		TIM3, //TIM2
+		TIM5, //TIM2
 		TIM_IT_Update ,
 		ENABLE  //使能
 		);
-	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
+	NVIC_InitStructure.NVIC_IRQChannel = TIM5_IRQn;  //TIM3中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;  //先占优先级0级
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;  //从优先级3级
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 
-	TIM_Cmd(TIM3, ENABLE);  //使能TIMx外设
+	TIM_Cmd(TIM5, ENABLE);  //使能TIMx外设
 							 
 }
 
 
-void TIM3_IRQHandler(void)   //TIM3中断
+void TIM5_IRQHandler(void)   //TIM3中断
 {
-	if (TIM_GetITStatus(TIM3, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
+	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
 			
 			data_read();
 			mode1();
 			clear(dis,20);
-			sprintf(dis,"%6d",now_x);	
-			OLED_ShowString(80,0,(u8 *)dis);
+			sprintf(dis,"loca_x:%6d",now_x);	
+			OLED_ShowString(0,0,(u8 *)dis);
 			clear(dis,20);
-			sprintf(dis,"%6d",now_y);	
-			OLED_ShowString(80,16,(u8 *)dis);			
-			OLED_Refresh_Gram();
+			sprintf(dis,"loca_y:%6d",now_y);	
+			OLED_ShowString(0,2,(u8 *)dis);
+			sprintf(dis,"speed_x:%6d",speed_x);	
+			OLED_ShowString(0,4,(u8 *)dis);
+			sprintf(dis,"speed_y:%6d",speed_y);	
+			OLED_ShowString(0,6,(u8 *)dis);
+			
+			//OLED_Refresh_Gram();
 			
 			
 			
 			LED0=!LED0;
 		}
-	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除TIMx的中断待处理位:TIM 中断源 
+	TIM_ClearITPendingBit(TIM5,TIM_IT_Update);  //清除TIMx的中断待处理位:TIM 中断源 
 }
 
 
@@ -88,8 +93,8 @@ void moto_driver(float duty_x,float duty_y)
 	moto_y = LIMIT(moto_y,HighestDuty_y,lowestDuty_y);
 		
 	
-	TIM_SetCompare1(TIM5,(int)moto_x);	
-	TIM_SetCompare2(TIM5,(int)moto_y);	
+	TIM_SetCompare1(TIM3,(int)moto_x);	
+	TIM_SetCompare2(TIM3,(int)moto_y);	
 	
 }
 s16 LIMIT(s16 a,s16 min,s16 max)
@@ -124,7 +129,7 @@ void moto_io_init(void)
 	data_read();
 
 }
-	
+
 void data_read(void)
 {
 		if(USART_RX_STA&0x8000)
@@ -142,6 +147,11 @@ void data_read(void)
 				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
 				speed_x = now_x - last_x;
 				speed_y = now_y - last_y;
+				
+//				sprintf(dis,"loca_x:%5d",now_x);
+//				OLED_ShowString(0,0,dis);
+//				sprintf(dis,"loca_y:%5d",now_y);
+//				OLED_ShowString(0,10,dis);
 				
 //				if((now_y - last_y)>50 || (last_y - now_y)>50)
 //				{

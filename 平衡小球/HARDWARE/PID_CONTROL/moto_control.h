@@ -3,20 +3,20 @@
 #include "sys.h" 
 #include "delay.h"
 
-#define HighestDuty_x	1700//1.7ms
-#define lowestDuty_x	1000//
+#define HighestDuty_x	1130//1.7ms
+#define lowestDuty_x	1770//
 
-#define HighestDuty_y	1000//
-#define lowestDuty_y	1700//
+#define HighestDuty_y	1730//
+#define lowestDuty_y	1140//
 
 //
 //			|
 //			|	
-//	|		x
+//	|		x---PA0
 //	|------------
 //	|	|
 //		|	
-//		y
+//		y-------PA1
 //
 //
 
@@ -25,7 +25,7 @@
 extern u8 start_flag;
 extern int now_y,now_x;
 void data_read(void);
-void TIM3_Int_Init(u16 arr,u16 psc);
+void TIM5_Int_Init(u16 arr,u16 psc);
 void moto_driver(float duty_x,float duty_y);
 void moto_io_init(void);
 void mode1(void);

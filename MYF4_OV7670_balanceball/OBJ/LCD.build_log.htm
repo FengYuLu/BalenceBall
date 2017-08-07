@@ -21,13 +21,18 @@ Target DLL:      Segger\JL2CM3.dll V2.99.15.0
 Dialog DLL:      TCM.DLL V1.14.5.0
  
 <h2>Project:</h2>
-E:\BalenceBall\MYF4_OV7670_balanceball\USER\OV7670.uvprojx
-Project File Date:  08/06/2017
+E:\BalenceBall\BalenceBall_git\MYF4_OV7670_balanceball\USER\OV7670.uvprojx
+Project File Date:  08/07/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.05 update 2 (build 169)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'LCD'
 compiling main.c...
+main.c(90): warning:  #177-D: variable "k" was declared but never referenced
+        float k = 0,d = 0;
+main.c(90): warning:  #177-D: variable "d" was declared but never referenced
+        float k = 0,d = 0;
+main.c: 2 warnings, 0 errors
 compiling stm32f4xx_it.c...
 compiling system_stm32f4xx.c...
 compiling led.c...
@@ -57,12 +62,12 @@ compiling stm32f4xx_usart.c...
 compiling stm32f4xx_exti.c...
 compiling stm32f4xx_tim.c...
 linking...
-Program Size: Code=48142 RO-data=7498 RW-data=64 ZI-data=59448  
+Program Size: Code=48054 RO-data=7498 RW-data=60 ZI-data=59452  
 FromELF: creating hex file...
-"..\OBJ\LCD.axf" - 0 Error(s), 0 Warning(s).
+"..\OBJ\LCD.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
-  E:\BalenceBall\MYF4_OV7670_balanceball\USER\RTE
+  E:\BalenceBall\BalenceBall_git\MYF4_OV7670_balanceball\USER\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include
 
 <h2>Collection of Component Files used:</h2>

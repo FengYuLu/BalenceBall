@@ -37,3 +37,4 @@
 ..\obj\main.o: ..\HARDWARE\PWM\pwm.h
 ..\obj\main.o: ..\HARDWARE\PID_CONTROL\pid.h
 ..\obj\main.o: ..\HARDWARE\OLED\oled.h
+..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h

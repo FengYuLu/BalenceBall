@@ -126,18 +126,18 @@ void data_calculate(void)
 		
 		//LCD_Scan_Dir(DFT_SCAN_DIR);	//ª÷∏¥ƒ¨»œ…®√Ë∑ΩœÚ 
 	
-		if(whiteline<50)
-		{
-			k *= 100;
-			k-=2;
-			d-=61;
-		}
-		else 
-		{
-			k = 0;
-			d = 0;
-		}
-		
+//		if(whiteline<50)
+//		{
+//			k *= 100;
+//			k-=2;
+//			d-=61;
+//		}
+//		else 
+//		{
+//			k = 0;
+//			d = 0;
+//		}
+//		
      	printf("%c%c%c%c%c%c%c%c",0xaa,0xff,centrol.x>>8,centrol.x&0xff,centrol.y>>8,centrol.y&0xff,0x0d,0x0a);	
 //		LCD_ShowString(0,24,320,24,24,"K:");	
 //		LCD_ShowString(0,48,320,24,24,"D:");
