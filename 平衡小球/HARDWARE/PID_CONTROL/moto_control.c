@@ -66,10 +66,10 @@ void mode1(void)
 {
 	//PID_calculate(y,aim_y,(float)now_y,&aim_x);
 	//PID_calculate(x,aim_x,(float)now_x,&moto_dif);
-	PID_calculate(locaPID_x,aim_x,(float)now_x,&duty_x);
-	PID_calculate(speedPID_x,aim_x,(float)speed_x,&duty_x);
-	PID_calculate(locaPID_y,aim_y,(float)now_y,&duty_y);
-	PID_calculate(speedPID_y,aim_y,(float)speed_y,&duty_y);
+	PID_calculate(&locaPID_x,aim_x,(float)now_x,&duty_x);
+	PID_calculate(&speedPID_x,aim_x,(float)speed_x,&duty_x);
+	PID_calculate(&locaPID_y,aim_y,(float)now_y,&duty_y);
+	PID_calculate(&speedPID_y,aim_y,(float)speed_y,&duty_y);
 	
 	moto_driver(duty_x,duty_y);
 
