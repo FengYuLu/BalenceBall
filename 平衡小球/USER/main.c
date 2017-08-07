@@ -21,6 +21,10 @@
 	OLED_Init();
 	OLED_Display_On();
 	moto_io_init();
+	 
+	 
+	 //
+	 //
 //	Pid_set(&y,2,0,0);
 //	Pid_set(&x,8,0,0);
 	TIM5_PWM_Init(19999,71);//720·ÖÆµ£¬50HZ ÖÜÆÚ20ms
