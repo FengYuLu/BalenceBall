@@ -25,13 +25,14 @@
 	 
 	 //
 	 //
-	Pid_set(&locaPID_x,1,0,0);
-	Pid_set(&speedPID_x,1,0,0);
-	Pid_set(&locaPID_y,1,0,0);
-	  
-	Pid_set(&speedPID_y,1,0,0);
+	Pid_set(&locaPID_x,0,0,0);//0.15
+	Pid_set(&speedPID_x,0.5,0,10.5 );//4.2
+	Pid_set(&locaPID_y,0,0,0);	  //0.6
+	Pid_set(&speedPID_y,0,0,10);//6
+	 
+	 
 	TIM3_PWM_Init(19999,71);//720·ÖÆµ£¬50HZ ÖÜÆÚ20ms
-	TIM5_Int_Init(4999,71);
+	TIM5_Int_Init(49999,71);
   
    	while(1)
 	{

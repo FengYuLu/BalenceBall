@@ -106,6 +106,7 @@ void data_calculate(void)
 		else if(lcddev.id==0X5510||lcddev.id==0X5310)LCD_Set_Window((lcddev.width-320)/2,(lcddev.height-240)/2,320,240);//将显示区域设置到屏幕中央
 		LCD_SetCursor((lcddev.width-320)/2,(lcddev.height-240)/2);	
 		LCD_WriteRAM_Prepare();     //开始写入GRAM	
+		/*
 		for(j=0;j<76800;j++)
 		{
 			if(image[j/640][(j%320)/2]==1)
@@ -114,6 +115,7 @@ void data_calculate(void)
 				LCD->LCD_RAM = 65535;
 		}
 		LCD_Draw_Circle(centrol.x*2,centrol.y*2,5);
+		*/
 		//Figure_Clean();
 //		POINT_COLOR=RED;			//设置字体为红色 
 //		for(hh = 0;hh<HEIGHT;hh++)

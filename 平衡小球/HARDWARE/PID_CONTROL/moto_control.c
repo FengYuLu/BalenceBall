@@ -7,7 +7,8 @@
 int now_y = 0,now_x = 0;
 int last_y = 0,last_x = 0;
 int speed_x = 0,speed_y = 0;
-float aim_y = 56,aim_x = 71,moto_dif = 0,duty_x = 0,duty_y = 0;
+float Espeed_x = 0,Espeed_y = 0;
+float aim_y = 56.0,aim_x = 71.0,duty_x = 0,duty_y = 0;
 char dis[20];
 u8 start_flag = 0;
 void TIM5_Int_Init(u16 arr,u16 psc)
@@ -47,10 +48,10 @@ void TIM5_IRQHandler(void)   //TIM3中断
 			data_read();
 			mode1();
 			clear(dis,20);
-			sprintf(dis,"loca_x:%6d",now_x);	
+			sprintf(dis,"duty_x:%4.2f",duty_x);	
 			OLED_ShowString(0,0,(u8 *)dis);
 			clear(dis,20);
-			sprintf(dis,"loca_y:%6d",now_y);	
+			sprintf(dis,"duty_y:%4.2f",duty_y);	
 			OLED_ShowString(0,2,(u8 *)dis);
 			sprintf(dis,"speed_x:%6d",speed_x);	
 			OLED_ShowString(0,4,(u8 *)dis);
@@ -71,26 +72,31 @@ void mode1(void)
 {
 	//PID_calculate(y,aim_y,(float)now_y,&aim_x);
 	//PID_calculate(x,aim_x,(float)now_x,&moto_dif);
-	PID_calculate(&locaPID_x,aim_x,(float)now_x,&duty_x);
-	PID_calculate(&speedPID_x,aim_x,(float)speed_x,&duty_x);
-	PID_calculate(&locaPID_y,aim_y,(float)now_y,&duty_y);
-	PID_calculate(&speedPID_y,aim_y,(float)speed_y,&duty_y);
+	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
+	
+	PID_calculate(&speedPID_x,Espeed_x,(float)speed_x,(float*)&duty_x);
+	
+	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
+	
+	PID_calculate(&speedPID_y,Espeed_x,(float)speed_y,(float*)&duty_y);
+	
+	
 	
 	moto_driver(duty_x,duty_y);
-
+	//moto_driver(500,500);
 
 
 }
 
 void moto_driver(float duty_x,float duty_y)
 {
-	u16 moto_x,moto_y;
-	moto_x = lowestDuty_x+(HighestDuty_x - lowestDuty_x)*duty_x*1000;
-	moto_y = lowestDuty_y+(HighestDuty_y - lowestDuty_y)*duty_y*1000;
+	s16 moto_x,moto_y;
+	moto_x = Midell_x - duty_x;//lowestDuty_x-(lowestDuty_x - HighestDuty_x)*((420.0+duty_x)/1000.0);
+	moto_y = Midell_y + duty_y;//lowestDuty_y+(HighestDuty_y - lowestDuty_y)*((400.0+duty_y)/1000.0);
 
 	
-	moto_x = LIMIT(moto_x,lowestDuty_x,HighestDuty_x);
-	moto_y = LIMIT(moto_y,HighestDuty_y,lowestDuty_y);
+	moto_x = LIMIT(moto_x,HighestDuty_x,lowestDuty_x);
+	moto_y = LIMIT(moto_y,lowestDuty_y,HighestDuty_y);
 		
 	
 	TIM_SetCompare1(TIM3,(int)moto_x);	
@@ -146,8 +152,9 @@ void data_read(void)
 				//if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
 				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
 				speed_x = now_x - last_x;
-				speed_y = now_y - last_y;
+				speed_y =last_y - now_y ;
 				
+				  
 //				sprintf(dis,"loca_x:%5d",now_x);
 //				OLED_ShowString(0,0,dis);
 //				sprintf(dis,"loca_y:%5d",now_y);
@@ -168,6 +175,7 @@ void data_read(void)
 				last_y=now_y;
 				last_x=now_x;
 			}				
+			
 			USART_RX_STA=0;
 			
 			USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断

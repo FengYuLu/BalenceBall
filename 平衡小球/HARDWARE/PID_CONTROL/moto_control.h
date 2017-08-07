@@ -3,11 +3,13 @@
 #include "sys.h" 
 #include "delay.h"
 
-#define HighestDuty_x	1130//1.7ms
-#define lowestDuty_x	1770//
+#define HighestDuty_x	1350//1.7ms
+#define lowestDuty_x	1620//
+#define Midell_x		1500
 
-#define HighestDuty_y	1730//
-#define lowestDuty_y	1140//
+#define HighestDuty_y	1720//
+#define lowestDuty_y	1450//
+#define Midell_y		1540
 
 //
 //			|
