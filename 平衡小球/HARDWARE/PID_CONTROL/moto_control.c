@@ -4,8 +4,8 @@
 #include "led.h"
 #include "oled.h"
 
-int now_weiyi = 0,now_angle = 0;
-int last_weiyi = 0,last_angle = 0;
+int now_y = 0,now_x = 0;
+int last_y = 0,last_x = 0;
 float aim_weiyi = 0,aim_angle = 0,moto_dif = 0,moto1 = 0,moto2 = 0;
 char dis[20];
 u8 start_flag = 0;
@@ -46,10 +46,10 @@ void TIM3_IRQHandler(void)   //TIM3中断
 			data_read();
 			mode1();
 			clear(dis,20);
-			sprintf(dis,"%6d",now_angle);	
+			sprintf(dis,"%6d",now_x);	
 			OLED_ShowString(80,0,dis);
 			clear(dis,20);
-			sprintf(dis,"%6d",now_weiyi);	
+			sprintf(dis,"%6d",now_y);	
 			OLED_ShowString(80,16,dis);			
 			OLED_Refresh_Gram();
 			
@@ -63,8 +63,8 @@ void TIM3_IRQHandler(void)   //TIM3中断
 
 void mode1(void)
 {
-	PID_calculate(Weiyi,aim_weiyi,(float)now_weiyi,&aim_angle);
-	PID_calculate(Angle,aim_angle,(float)now_angle,&moto_dif);
+	PID_calculate(Weiyi,aim_weiyi,(float)now_y,&aim_angle);
+	PID_calculate(Angle,aim_angle,(float)now_x,&moto_dif);
 	moto_driver(moto_dif);
 
 
@@ -116,29 +116,29 @@ void data_read(void)
 			start_flag=1;
 			if(USART_RX_BUF[0]==0xaa && USART_RX_BUF[1]==0xff)
 			{
-				last_weiyi=now_weiyi;
-				last_angle=now_angle;
+				last_y=now_y;
+				last_x=now_x;
 					
 					
-				now_angle = ((USART_RX_BUF[2]<<8)|USART_RX_BUF[3]);				   
-				now_weiyi = ((USART_RX_BUF[4]<<8)|USART_RX_BUF[5]);	
+				now_x = ((USART_RX_BUF[2]<<8)|USART_RX_BUF[3]);				   
+				now_y = ((USART_RX_BUF[4]<<8)|USART_RX_BUF[5]);	
 					
-				if(now_angle>32767)now_angle=0xffff0000|now_angle;//转化成负数
-				if(now_weiyi>32767)now_weiyi=0xffff0000|now_weiyi;//转化成负数
+				if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
+				if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
 				
 				
-				if((now_weiyi - last_weiyi)>50 || (last_weiyi - now_weiyi)>50)
+				if((now_y - last_y)>50 || (last_y - now_y)>50)
 				{
-					now_weiyi = last_weiyi;
+					now_y = last_y;
 				}
-				//else	now_weiyi = (10*now_weiyi + 90*last_weiyi)/100;
+				//else	now_y = (10*now_y + 90*last_y)/100;
 					
-				if((now_angle - last_angle)>50 || (last_angle - now_angle)>50)
+				if((now_x - last_x)>50 || (last_x - now_x)>50)
 				{
-					now_angle = last_angle;
+					now_x = last_x;
 				}
-//				now_angle = (10*now_angle + 90*last_angle)/100;
-//				now_weiyi = (10*now_weiyi + 90*last_weiyi)/100;
+//				now_x = (10*now_x + 90*last_x)/100;
+//				now_y = (10*now_y + 90*last_y)/100;
 				
 			}				
 			USART_RX_STA=0;

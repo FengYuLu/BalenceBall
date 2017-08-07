@@ -3,7 +3,7 @@
 #include "sys.h" 
 #include "delay.h"
 extern u8 start_flag;
-extern int now_weiyi,now_angle;
+extern int now_y,now_x;
 void data_read(void);
 void TIM3_Int_Init(u16 arr,u16 psc);
 void moto_driver(float difference);
