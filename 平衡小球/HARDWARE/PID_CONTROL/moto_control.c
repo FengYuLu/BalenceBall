@@ -48,10 +48,10 @@ void TIM5_IRQHandler(void)   //TIM3中断
 			data_read();
 			mode1();
 			clear(dis,20);
-			sprintf(dis,"duty_x:%4.2f",duty_x);	
+			sprintf(dis,"loca_x:%5d",now_x);	
 			OLED_ShowString(0,0,(u8 *)dis);
 			clear(dis,20);
-			sprintf(dis,"duty_y:%4.2f",duty_y);	
+			sprintf(dis,"loca_y:%5d",now_y);	
 			OLED_ShowString(0,2,(u8 *)dis);
 			sprintf(dis,"speed_x:%6d",speed_x);	
 			OLED_ShowString(0,4,(u8 *)dis);
@@ -72,19 +72,23 @@ void mode1(void)
 {
 	//PID_calculate(y,aim_y,(float)now_y,&aim_x);
 	//PID_calculate(x,aim_x,(float)now_x,&moto_dif);
+	if(now_x ==0 &&now_y == 0 )
+		moto_driver(0,0);
+	else
+	{
 	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
 	
 	PID_calculate(&speedPID_x,Espeed_x,(float)speed_x,(float*)&duty_x);
 	
 	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
 	
-	PID_calculate(&speedPID_y,Espeed_x,(float)speed_y,(float*)&duty_y);
+	PID_calculate(&speedPID_y,Espeed_y*(-1),(float)speed_y,(float*)&duty_y);
 	
 	
 	
 	moto_driver(duty_x,duty_y);
 	//moto_driver(500,500);
-
+	}
 
 }
 
@@ -151,9 +155,17 @@ void data_read(void)
 					
 				//if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
 				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
-				speed_x = now_x - last_x;
-				speed_y =last_y - now_y ;
 				
+				if(last_y == 0&&last_x==0)
+				{
+					speed_x = 0;
+					speed_y = 0;
+				}
+				else
+				{
+					speed_x = now_x - last_x;
+					speed_y =last_y - now_y ;
+				}
 				  
 //				sprintf(dis,"loca_x:%5d",now_x);
 //				OLED_ShowString(0,0,dis);

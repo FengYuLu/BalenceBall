@@ -9,7 +9,7 @@
 
 #define HighestDuty_y	1720//
 #define lowestDuty_y	1450//
-#define Midell_y		1540
+#define Midell_y		1520
 
 //
 //			|
