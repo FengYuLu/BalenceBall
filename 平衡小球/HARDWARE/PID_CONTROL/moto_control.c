@@ -82,7 +82,7 @@ void mode1(void)
 	
 	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
 	
-	PID_calculate(&speedPID_y,Espeed_y*(-1),(float)speed_y,(float*)&duty_y);
+	PID_calculate(&speedPID_y,Espeed_y,(float)speed_y,(float*)&duty_y);
 	
 	
 	
@@ -156,7 +156,7 @@ void data_read(void)
 				//if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
 				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
 				
-				if(last_y == 0&&last_x==0)
+				if(last_y == 0||last_x==0)
 				{
 					speed_x = 0;
 					speed_y = 0;
@@ -164,7 +164,7 @@ void data_read(void)
 				else
 				{
 					speed_x = now_x - last_x;
-					speed_y =last_y - now_y ;
+					speed_y = now_y  - last_y;
 				}
 				  
 //				sprintf(dis,"loca_x:%5d",now_x);

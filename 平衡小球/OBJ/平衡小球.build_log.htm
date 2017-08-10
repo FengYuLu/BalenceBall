@@ -27,6 +27,7 @@ Project File Date:  08/09/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.05 update 1 (build 106)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
+<<<<<<< HEAD
 compiling system_stm32f10x.c...
 compiling stm32f10x_it.c...
 compiling main.c...
@@ -49,13 +50,30 @@ linking...
 Program Size: Code=12806 RO-data=2410 RW-data=552 ZI-data=2016  
 FromELF: creating hex file...
 "..\OBJ\平衡小球.axf" - 0 Error(s), 0 Warning(s).
+=======
+compiling moto_control.c...
+..\HARDWARE\PID_CONTROL\moto_control.c(146): error:  #20: identifier "USART2_RX_STA" is undefined
+        if(USART2_RX_STA&0x8000)
+..\HARDWARE\PID_CONTROL\moto_control.c(149): error:  #20: identifier "USART2_RX_BUF" is undefined
+                        if(USART2_RX_BUF[0] == 0x5b && USART2_RX_BUF[len-1] == 0x5d)
+..\HARDWARE\PID_CONTROL\moto_control.c(183): error:  #167: argument of type "int" is incompatible with parameter of type "u16 *"
+        read_data(now_x,now_y);
+..\HARDWARE\PID_CONTROL\moto_control.c(183): error:  #167: argument of type "int" is incompatible with parameter of type "u16 *"
+        read_data(now_x,now_y);
+..\HARDWARE\PID_CONTROL\moto_control.c: 0 warnings, 4 errors
+"..\OBJ\平衡小球.axf" - 4 Error(s), 0 Warning(s).
+>>>>>>> c7f6b75fb431ba32f9860c17e5447b916f31db04
 
 <h2>Collection of Component include folders:</h2>
   D:\GitHub\BalenceBall\平衡小球\USER\RTE
   D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+<<<<<<< HEAD
 Build Time Elapsed:  00:00:08
+=======
+Target not created.
+>>>>>>> c7f6b75fb431ba32f9860c17e5447b916f31db04
 </pre>
 </body>
 </html>
