@@ -74,7 +74,7 @@ u8 OV7670_Init(void)
 //0:自动
 //1:太阳sunny
 //2,阴天cloudy
-//3,办公室office
+//3,办公室office 
 //4,家里home
 void OV7670_Light_Mode(u8 mode)
 {

@@ -27,17 +27,24 @@ Project File Date:  08/07/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.05 update 2 (build 169)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling main.c...
-linking...
-Program Size: Code=12806 RO-data=2410 RW-data=552 ZI-data=2016  
-FromELF: creating hex file...
-"..\OBJ\平衡小球.axf" - 0 Error(s), 0 Warning(s).
+compiling moto_control.c...
+..\HARDWARE\PID_CONTROL\moto_control.c(146): error:  #20: identifier "USART2_RX_STA" is undefined
+        if(USART2_RX_STA&0x8000)
+..\HARDWARE\PID_CONTROL\moto_control.c(149): error:  #20: identifier "USART2_RX_BUF" is undefined
+                        if(USART2_RX_BUF[0] == 0x5b && USART2_RX_BUF[len-1] == 0x5d)
+..\HARDWARE\PID_CONTROL\moto_control.c(183): error:  #167: argument of type "int" is incompatible with parameter of type "u16 *"
+        read_data(now_x,now_y);
+..\HARDWARE\PID_CONTROL\moto_control.c(183): error:  #167: argument of type "int" is incompatible with parameter of type "u16 *"
+        read_data(now_x,now_y);
+..\HARDWARE\PID_CONTROL\moto_control.c: 0 warnings, 4 errors
+"..\OBJ\平衡小球.axf" - 4 Error(s), 0 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   E:\BalenceBall\BalenceBall_git\平衡小球\USER\RTE
   C:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+Target not created.
 </pre>
 </body>
 </html>
