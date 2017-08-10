@@ -3,14 +3,22 @@
 #include "pid.h"
 #include "led.h"
 #include "oled.h"
+#include "math.h"
 
+//点坐标
+u16 point_location[9][2]={{0,0},{0,0},{0,0},{0,0},{173,107},{0,0},{0,0},{0,0},{0,0}};
+
+
+u32 time_control = 0;
 u16 now_y = 0,now_x = 0;
 u16 last_y = 0,last_x = 0;
-int speed_x = 0,speed_y = 0;
+int X_speedbuf[3]={0,0,0},Y_speedbuf[3]={0,0,0};
+float speed_x = 0.0f,speed_y = 0.0f;
 float Espeed_x = 0,Espeed_y = 0;
-float aim_y = 56.0,aim_x = 71.0,duty_x = 0,duty_y = 0;
+
+float aim_y = 0.0f,aim_x = 0.0f,duty_x = 0,duty_y = 0;
 char dis[20];
-u8 start_flag = 0;
+u8 start_flag = 0,mode_flag = 7,mode_change = 0;
 void TIM5_Int_Init(u16 arr,u16 psc)
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -44,19 +52,105 @@ void TIM5_IRQHandler(void)   //TIM3中断
 {
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
+			time_control+=5;
+			if(read_data())
+			{
+				moto_driver(0,0);
+				if(start_flag == 1)
+				start_flag = 0;
+			}
+			else 
+			{
+				
+				switch(mode_flag)
+				{
+					case 1:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+							
+						mode1();
+						break;
+					case 2:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+							
+						mode2();
+						break;
+					case 3:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode3();
+						break;
+					case 4:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode4();
+						break;
+					case 5:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode5();
+						break;
+					case 6:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode6();
+						break;
+					case 7:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode7();
+						break;
+					case 8:
+						if(mode_change == 1)
+						{
+							time_control = 0;
+							mode_change = 0;
+						}
+						mode8();
+						break;
+				}
+				
+				
+				
+				if(start_flag == 0)
+				start_flag = 1;
+			}
 			
-			if(read_data())moto_driver(0,0);
-				else mode1();
+			
 
+			
+			
 			clear(dis,20);
 			sprintf(dis,"loca_x:%5d",now_x);	
 			OLED_ShowString(0,0,(u8 *)dis);
 			clear(dis,20);
 			sprintf(dis,"loca_y:%5d",now_y);	
 			OLED_ShowString(0,2,(u8 *)dis);
-			sprintf(dis,"speed_x:%6d",speed_x);	
+			sprintf(dis,"speed_x:%3.1f",speed_x);	
 			OLED_ShowString(0,4,(u8 *)dis);
-			sprintf(dis,"speed_y:%6d",speed_y);	
+			sprintf(dis,"speed_y:%3.1f",speed_y);	
 			OLED_ShowString(0,6,(u8 *)dis);
 			
 			//OLED_Refresh_Gram();
@@ -73,17 +167,22 @@ void mode1(void)
 {
 	//PID_calculate(y,aim_y,(float)now_y,&aim_x);
 	//PID_calculate(x,aim_x,(float)now_x,&moto_dif);
+	
+	aim_y = 100.0;
+	aim_x = 220.0;
+	
+	
 	if(now_x ==0 &&now_y == 0 )
 		moto_driver(0,0);
 	else
 	{
 	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
 	
-	PID_calculate(&speedPID_x,Espeed_x,(float)speed_x,(float*)&duty_x);
+	PID_calculate(&speedPID_x,Espeed_x,speed_x,(float*)&duty_x);
 	
 	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
 	
-	PID_calculate(&speedPID_y,Espeed_y,(float)speed_y,(float*)&duty_y);
+	PID_calculate(&speedPID_y,Espeed_y,speed_y,(float*)&duty_y);
 	
 	
 	
@@ -92,6 +191,165 @@ void mode1(void)
 	}
 
 }
+
+
+void mode2(void)
+{
+		
+	aim_y = point_location[4][1];
+	aim_x = point_location[4][0];
+	
+	
+	if(now_x ==0 &&now_y == 0 )
+		moto_driver(0,0);
+	else
+	{
+	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
+	
+	PID_calculate(&speedPID_x,Espeed_x,speed_x,(float*)&duty_x);
+	
+	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
+	
+	PID_calculate(&speedPID_y,Espeed_y,speed_y,(float*)&duty_y);
+	
+	
+	
+	moto_driver(duty_x,duty_y);
+	
+	}
+
+
+}
+void mode3(void)
+{
+		if(time_control<3000)
+		{
+			aim_y = 100.0;
+			aim_x = 220.0;
+		}
+		else
+		{
+			aim_y = 100.0;
+			aim_x = 175.0;
+		}
+	
+	
+	if(now_x ==0 &&now_y == 0 )
+		moto_driver(0,0);
+	else
+	{
+	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
+	
+	PID_calculate(&speedPID_x,Espeed_x,speed_x,(float*)&duty_x);
+	
+	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
+	
+	PID_calculate(&speedPID_y,Espeed_y,speed_y,(float*)&duty_y);
+	
+	
+	
+	moto_driver(duty_x,duty_y);
+	
+	}
+
+
+
+}
+void mode4(void)
+{
+		if(time_control<2000)
+		{
+			aim_y = point_location[4][1]+30;
+			aim_x = point_location[4][0];
+		}
+		else if(time_control<4000)
+		{
+			aim_y = point_location[4][1];
+			aim_x = point_location[4][0]+30;
+		}
+		else if(time_control<6000)
+		{
+			aim_y = point_location[4][1]-30;
+			aim_x = point_location[4][0];
+		}
+		else if(time_control<8000)
+		{
+			aim_y = point_location[4][1];
+			aim_x = point_location[4][0]-30;
+		}
+		else time_control = 0;
+//	
+	
+	
+	if(now_x ==0 &&now_y == 0 )
+		moto_driver(0,0);
+	else
+	{
+	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
+	
+	PID_calculate(&speedPID_x,Espeed_x,speed_x,(float*)&duty_x);
+	
+	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
+	
+	PID_calculate(&speedPID_y,Espeed_y,speed_y,(float*)&duty_y);
+	
+	
+	
+	moto_driver(duty_x,duty_y);
+	
+	}
+
+	
+
+}
+void mode5(void)
+{
+
+}
+void mode6(void)
+{
+
+}
+void mode7(void)
+{
+	const float priod = 600;//1250.0;  //单摆周期(毫秒)
+	static uint32_t MoveTimeCnt = 0;
+	float A = 30.0;
+	float phase = 0.0;
+	float Normalization = 0.0;
+	float Omega = 0.0;
+	
+	MoveTimeCnt += 5;							 //每5ms运算1次
+	Normalization = (float)MoveTimeCnt / priod;	 //对单摆周期归一化
+	Omega = 2.0*3.14159*Normalization;			 //对2π进行归一化处理				
+	  
+	phase = 3.141592*1.4/2.0;		 //逆时针旋转相位差90° 
+
+	
+	aim_y = A*sin(Omega) + point_location[4][1];		//计算出X方向当前摆角
+	aim_x = A*cos(Omega) + point_location[4][0];
+	//aim_x = A*sin(Omega+phase)+point_location[4][0]; 	//计算出Y方向当前摆角
+	
+	
+	PID_calculate(&locaPID_x,(float)aim_x,(float)now_x,&Espeed_x);
+	
+	PID_calculate(&speedPID_x,Espeed_x,speed_x,(float*)&duty_x);
+	
+	PID_calculate(&locaPID_y,(float)aim_y,(float)now_y,&Espeed_y);
+	
+	PID_calculate(&speedPID_y,Espeed_y,speed_y,(float*)&duty_y);
+	
+	
+	
+	moto_driver(duty_x,duty_y);
+	
+
+}
+void mode8(void)
+{
+
+}
+
 
 void moto_driver(float duty_x,float duty_y)
 {
@@ -137,71 +395,11 @@ void moto_io_init(void)
 	GPIO_SetBits(GPIOD,GPIO_Pin_2);						 //PA.8 输出高
 	GPIO_SetBits(GPIOB,GPIO_Pin_4);						 //PA.8 输出高
 	GPIO_ResetBits(GPIOB,GPIO_Pin_3|GPIO_Pin_5);						 //PA.8 输出高
-	data_read();
-
-}
-
-void data_read(void)
-{
-		if(USART_RX_STA&0x8000)
-		{	
-			start_flag=1;
-			if(USART_RX_BUF[0]==0xaa && USART_RX_BUF[1]==0xff)
-			{
-				
-					
-					
-				now_x = ((USART_RX_BUF[2]<<8)|USART_RX_BUF[3]);				   
-				now_y = ((USART_RX_BUF[4]<<8)|USART_RX_BUF[5]);	
-					
-				//if(now_x>32767)now_x=0xffff0000|now_x;//转化成负数
-				//if(now_y>32767)now_y=0xffff0000|now_y;//转化成负数
-				
-				if(last_y == 0||last_x==0)
-				{
-					speed_x = 0;
-					speed_y = 0;
-				}
-				else
-				{
-					speed_x = now_x - last_x;
-					speed_y = now_y  - last_y;
-				}
-				  
-//				sprintf(dis,"loca_x:%5d",now_x);
-//				OLED_ShowString(0,0,dis);
-//				sprintf(dis,"loca_y:%5d",now_y);
-//				OLED_ShowString(0,10,dis);
-				
-//				if((now_y - last_y)>50 || (last_y - now_y)>50)
-//				{
-//					now_y = last_y;
-//				}
-				//else	now_y = (10*now_y + 90*last_y)/100;
-					
-//				if((now_x - last_x)>50 || (last_x - now_x)>50)
-//				{
-//					now_x = last_x;
-//				}
-//				now_x = (10*now_x + 90*last_x)/100;
-//				now_y = (10*now_y + 90*last_y)/100;
-				last_y=now_y;
-				last_x=now_x;
-			}				
-			
-			USART_RX_STA=0;
-			
-			USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
-		}
-
-}
-void zhuanwan(void)
-{
 	
-	TIM_SetCompare1(TIM5,0);	
-	TIM_SetCompare2(TIM5,7370);	
 
 }
+
+
 void clear(char *string,u16 leng)
 {
 	for(leng--;leng>0;leng--)
@@ -244,15 +442,27 @@ u8 read_data(void)
 				now_x = x_buf;
 				now_y = y_buf;
 				
-						
-			
-				speed_x = now_x - last_x;
-				speed_y = now_y  - last_y;
-			
-				  
-
-				last_y=now_y;
-				last_x=now_x;
+				if(((now_x - last_x)>50 || (now_x - last_x)<-50 || (now_y  - last_y)>50 || (now_y  - last_y)<-50) && start_flag )
+				{
+					now_x = last_x;
+					now_y = last_y;
+				}
+				else
+				{		
+					X_speedbuf[2] = X_speedbuf[1];
+					X_speedbuf[1] = X_speedbuf[0];
+					X_speedbuf[0] = now_x - last_x;
+					
+					Y_speedbuf[2] = Y_speedbuf[1];
+					Y_speedbuf[1] = Y_speedbuf[0];
+					Y_speedbuf[0] = now_y  - last_y;
+					
+					speed_x = (float)(X_speedbuf[0] + X_speedbuf[1] + X_speedbuf[2])/3;
+					speed_y = (float)(Y_speedbuf[0] + Y_speedbuf[1] + Y_speedbuf[2])/3;
+					
+					last_y=now_y;
+					last_x=now_x;
+				}
 				
 				
 			}

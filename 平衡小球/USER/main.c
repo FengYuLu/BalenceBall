@@ -28,13 +28,19 @@
 //	Pid_set(&locaPID_y,0.23,0.0015,0.58);	  //0.6
 //	Pid_set(&speedPID_y,2.5,0.1,2.5 );//6
 	 
-	Pid_set(&locaPID_x,0,0,0);//0.15
-	Pid_set(&speedPID_x,6,0,0 );//2.7,0,6
-	Pid_set(&locaPID_y,0,0,0);	  //0.6
-	Pid_set(&speedPID_y,0,0,0);//6
+	 
+	 
+	 
+	Pid_set(&locaPID_x,0.038,0.00018,0);//0.15
+	Pid_set(&speedPID_x,88,0,0 );//2.7,0,6
+	 
+	 
+	//Pid_set(&locaPID_y,0.031,0.0015,0.0075);	  //0.6
+	 Pid_set(&locaPID_y,0.04,0.0002,0);//0.04,0,0
+	Pid_set(&speedPID_y,80,0,0);//6
 	 
 	TIM3_PWM_Init(19999,71);//720·ÖÆµ£¬50HZ ÖÜÆÚ20ms
-	TIM5_Int_Init(24999,71);
+	TIM5_Int_Init(12499,71);
   
    	while(1)
 	{
