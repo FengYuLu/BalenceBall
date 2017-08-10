@@ -3,7 +3,7 @@
 ..\obj\olsm.o: ..\SYSTEM\sys\sys.h
 ..\obj\olsm.o: ..\USER\stm32f4xx.h
 ..\obj\olsm.o: ..\CORE\core_cm4.h
-..\obj\olsm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\olsm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\olsm.o: ..\CORE\core_cmInstr.h
 ..\obj\olsm.o: ..\CORE\core_cmFunc.h
 ..\obj\olsm.o: ..\CORE\core_cm4_simd.h
@@ -36,9 +36,5 @@
 ..\obj\olsm.o: ..\FWLIB\inc\stm32f4xx_dac.h
 ..\obj\olsm.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\olsm.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
-..\obj\olsm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\olsm.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\olsm.o: ..\HARDWARE\PICTURE_PROCESS\PIC_process.h
-..\obj\olsm.o: E:\module\Algorithm\FIGURE\include\Figure.h
-..\obj\olsm.o: E:\module\Algorithm\FIGURE\include\Figure_Define.h
-..\obj\olsm.o: E:\module\Algorithm\FIGURE\include\Figure_Transform.h
-..\obj\olsm.o: E:\module\Algorithm\FIGURE\include\Figure_Math.h

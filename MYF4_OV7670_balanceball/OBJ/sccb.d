@@ -2,7 +2,7 @@
 ..\obj\sccb.o: ..\SYSTEM\sys\sys.h
 ..\obj\sccb.o: ..\USER\stm32f4xx.h
 ..\obj\sccb.o: ..\CORE\core_cm4.h
-..\obj\sccb.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\sccb.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\sccb.o: ..\CORE\core_cmInstr.h
 ..\obj\sccb.o: ..\CORE\core_cmFunc.h
 ..\obj\sccb.o: ..\CORE\core_cm4_simd.h

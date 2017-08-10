@@ -2,7 +2,7 @@
 ..\obj\main.o: ..\SYSTEM\sys\sys.h
 ..\obj\main.o: ..\USER\stm32f4xx.h
 ..\obj\main.o: ..\CORE\core_cm4.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\main.o: ..\CORE\core_cmInstr.h
 ..\obj\main.o: ..\CORE\core_cmFunc.h
 ..\obj\main.o: ..\CORE\core_cm4_simd.h
@@ -37,10 +37,10 @@
 ..\obj\main.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
 ..\obj\main.o: ..\SYSTEM\delay\delay.h
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\obj\main.o: ..\HARDWARE\LED\led.h
 ..\obj\main.o: ..\HARDWARE\LCD\lcd.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: ..\HARDWARE\KEY\key.h
 ..\obj\main.o: ..\HARDWARE\OV7670\ov7670.h
 ..\obj\main.o: ..\HARDWARE\OV7670\sccb.h
@@ -48,9 +48,3 @@
 ..\obj\main.o: ..\HARDWARE\OLED\oled.h
 ..\obj\main.o: ..\HARDWARE\TIMER\timer.h
 ..\obj\main.o: ..\HARDWARE\PICTURE_PROCESS\PIC_process.h
-..\obj\main.o: E:\module\Algorithm\FIGURE\include\Figure.h
-..\obj\main.o: E:\module\Algorithm\FIGURE\include\Figure_Define.h
-..\obj\main.o: E:\module\Algorithm\FIGURE\include\Figure_Transform.h
-..\obj\main.o: E:\module\Algorithm\FIGURE\include\Figure_Math.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
-..\obj\main.o: ..\HARDWARE\ordinary_square_method\olsm.h

@@ -3,7 +3,7 @@
 ..\obj\pic_process.o: ..\SYSTEM\sys\sys.h
 ..\obj\pic_process.o: ..\USER\stm32f4xx.h
 ..\obj\pic_process.o: ..\CORE\core_cm4.h
-..\obj\pic_process.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\pic_process.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\pic_process.o: ..\CORE\core_cmInstr.h
 ..\obj\pic_process.o: ..\CORE\core_cmFunc.h
 ..\obj\pic_process.o: ..\CORE\core_cm4_simd.h
@@ -36,8 +36,3 @@
 ..\obj\pic_process.o: ..\FWLIB\inc\stm32f4xx_dac.h
 ..\obj\pic_process.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\pic_process.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
-..\obj\pic_process.o: E:\module\Algorithm\FIGURE\include\Figure.h
-..\obj\pic_process.o: E:\module\Algorithm\FIGURE\include\Figure_Define.h
-..\obj\pic_process.o: E:\module\Algorithm\FIGURE\include\Figure_Transform.h
-..\obj\pic_process.o: E:\module\Algorithm\FIGURE\include\Figure_Math.h
-..\obj\pic_process.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
