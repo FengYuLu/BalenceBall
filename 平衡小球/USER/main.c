@@ -23,8 +23,6 @@
 	moto_io_init();
 	 
 	 
-	 //
-	 //
 //	Pid_set(&locaPID_x,0.23,0.0015,0.58);//0.15
 //	Pid_set(&speedPID_x,2.35,0.15,2 );//2.7,0,6
 //	Pid_set(&locaPID_y,0.23,0.0015,0.58);	  //0.6
@@ -36,7 +34,7 @@
 	Pid_set(&speedPID_y,0,0,0);//6
 	 
 	TIM3_PWM_Init(19999,71);//720·ÖÆµ£¬50HZ ÖÜÆÚ20ms
-	TIM5_Int_Init(49999,143);
+	TIM5_Int_Init(24999,71);
   
    	while(1)
 	{

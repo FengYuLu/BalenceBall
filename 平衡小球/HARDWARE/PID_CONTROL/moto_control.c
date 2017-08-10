@@ -4,8 +4,8 @@
 #include "led.h"
 #include "oled.h"
 
-int now_y = 0,now_x = 0;
-int last_y = 0,last_x = 0;
+u16 now_y = 0,now_x = 0;
+u16 last_y = 0,last_x = 0;
 int speed_x = 0,speed_y = 0;
 float Espeed_x = 0,Espeed_y = 0;
 float aim_y = 56.0,aim_x = 71.0,duty_x = 0,duty_y = 0;
@@ -45,8 +45,9 @@ void TIM5_IRQHandler(void)   //TIM3中断
 	if (TIM_GetITStatus(TIM5, TIM_IT_Update) != RESET) //检查指定的TIM中断发生与否:TIM 中断源 
 		{
 			
-			data_read();
-			mode1();
+			if(read_data())moto_driver(0,0);
+				else mode1();
+
 			clear(dis,20);
 			sprintf(dis,"loca_x:%5d",now_x);	
 			OLED_ShowString(0,0,(u8 *)dis);
@@ -206,3 +207,64 @@ void clear(char *string,u16 leng)
 	for(leng--;leng>0;leng--)
 	string[leng] = 0; 
 }
+
+
+
+
+
+
+
+u8 read_data(void)
+{
+	u8 t,len = 0,data_flag = 0;
+	u16 x_buf = 0,y_buf = 0;
+	if(USART_RX_STA&0x8000)
+		{
+			len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
+			if(USART_RX_BUF[0] == 0x5b && USART_RX_BUF[len-1] == 0x5d)
+			{
+				for(t=1;t<len-1;t++)
+				{
+					if((USART_RX_BUF[t]&0xf0) == 0x30 && data_flag == 0)
+					{
+						x_buf*=10;
+						x_buf += (USART_RX_BUF[t]-0x30);
+					}
+					else if((USART_RX_BUF[t]&0xf0) == 0x30 && data_flag == 1)
+					{
+						y_buf*=10;
+						y_buf += (USART_RX_BUF[t]-0x30);
+					}
+					else if(USART_RX_BUF[t] == 0x2c && USART_RX_BUF[t+1] == 0x20 && data_flag == 0)
+					{
+						data_flag = 1;
+					}
+				}
+				
+				now_x = x_buf;
+				now_y = y_buf;
+				
+						
+			
+				speed_x = now_x - last_x;
+				speed_y = now_y  - last_y;
+			
+				  
+
+				last_y=now_y;
+				last_x=now_x;
+				
+				
+			}
+			USART_RX_STA = 0;
+			USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);//开启串口接受中断
+			return 0;//读取成功
+		}
+		else return 1; //读取失败
+		
+}
+
+
+
+
+

@@ -92,7 +92,7 @@ void uart_init(u32 bound){
   //Usart1 NVIC 配置
   NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0 ;//抢占优先级3
-	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;		//子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;		//子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;			//IRQ通道使能
 	NVIC_Init(&NVIC_InitStructure);	//根据指定的参数初始化VIC寄存器
   
@@ -120,20 +120,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)  //接收中断(接收到的数据必须是0x0d 0x0a结尾)
 		{
 		Res =USART_ReceiveData(USART1);	//读取接收到的数据
-		if(!(Res == 0xaa) && USART_RX_STA==0) return ;
-		else if(!(Res == 0xff) && USART_RX_STA==1)
-		{		
-			USART_RX_STA = 0;
-			return ;
-		}
-		else if(!(Res == 0x0d) && USART_RX_STA==6)
-		{	
-			USART_RX_STA = 0;
-			return ;
-		}
-			
-			
-			
+		
 		if((USART_RX_STA&0x8000)==0)//接收未完成
 			{
 			if(USART_RX_STA&0x4000)//接收到了0x0d
@@ -142,7 +129,7 @@ void USART1_IRQHandler(void)                	//串口1中断服务程序
 				else 
 					{
 						USART_RX_STA|=0x8000;	//接收完成了 
-						USART_ITConfig(USART1, USART_IT_RXNE, DISABLE);
+						USART_ITConfig(USART1, USART_IT_RXNE, DISABLE);//开启串口接受中断
 					}
 				}
 			else //还没收到0X0D

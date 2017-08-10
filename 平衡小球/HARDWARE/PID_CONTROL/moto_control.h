@@ -25,7 +25,7 @@
 
 
 extern u8 start_flag;
-extern int now_y,now_x;
+extern u16 now_y,now_x;
 void data_read(void);
 void TIM5_Int_Init(u16 arr,u16 psc);
 void moto_driver(float duty_x,float duty_y);
@@ -34,6 +34,10 @@ void mode1(void);
 void clear(char *string,u16 leng);
 void zhuanwan(void);
 s16 LIMIT(s16 a,s16 min,s16 max);
+u8 read_data(void);
+
+
+
 #endif 
 
 
