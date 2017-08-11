@@ -18,7 +18,7 @@ float Espeed_x = 0,Espeed_y = 0;
 
 float aim_y = 0.0f,aim_x = 0.0f,duty_x = 0,duty_y = 0;
 char dis[20];
-u8 start_flag = 0,mode_flag = 7,mode_change = 0;
+u8 start_flag = 0,mode_flag = 4,mode_change = 0;
 void TIM5_Int_Init(u16 arr,u16 psc)
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;

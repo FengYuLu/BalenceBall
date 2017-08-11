@@ -1,5 +1,5 @@
 Dependencies for Project '平衡小球', Target 'Target 1': (DO NOT MODIFY !)
-F (.\main.c)(0x598C8AA6)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\HARDWARE\LED -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\PWM -I ..\HARDWARE\PID_CONTROL -I ..\HARDWARE\OLED-I D:\GitHub\BalenceBall\平衡小球\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="520" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x598C8D5C)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\HARDWARE\LED -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\PWM -I ..\HARDWARE\PID_CONTROL -I ..\HARDWARE\OLED-I D:\GitHub\BalenceBall\平衡小球\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="520" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\HARDWARE\LED\led.h)(0x5987EC4B)
 I (..\SYSTEM\sys\sys.h)(0x5987EC4B)
 I (..\USER\stm32f10x.h)(0x5987EC4B)
@@ -162,7 +162,7 @@ I (..\STM32F10x_FWLib\inc\stm32f10x_usart.h)(0x5987EC4B)
 I (..\STM32F10x_FWLib\inc\stm32f10x_wwdg.h)(0x5987EC4B)
 I (..\STM32F10x_FWLib\inc\misc.h)(0x5987EC4B)
 I (..\HARDWARE\LED\led.h)(0x5987EC4B)
-F (..\HARDWARE\PID_CONTROL\moto_control.c)(0x598C8AF4)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\HARDWARE\LED -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\PWM -I ..\HARDWARE\PID_CONTROL -I ..\HARDWARE\OLED-I D:\GitHub\BalenceBall\平衡小球\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="520" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\moto_control.o --omf_browse ..\obj\moto_control.crf --depend ..\obj\moto_control.d)
+F (..\HARDWARE\PID_CONTROL\moto_control.c)(0x598CA33E)(-c --cpu Cortex-M3 -g -O0 --apcs=interwork -I ..\HARDWARE\LED -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\STM32F10x_FWLib\inc -I ..\CORE -I ..\HARDWARE\PWM -I ..\HARDWARE\PID_CONTROL -I ..\HARDWARE\OLED-I D:\GitHub\BalenceBall\平衡小球\USER\RTE-I D:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\1.0.5\Device\Include-I D:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="520" -DSTM32F10X_HD -DSTM32F10X_HD -DUSE_STDPERIPH_DRIVER-o ..\obj\moto_control.o --omf_browse ..\obj\moto_control.crf --depend ..\obj\moto_control.d)
 I (..\HARDWARE\PID_CONTROL\moto_control.h)(0x598C42E3)
 I (..\SYSTEM\sys\sys.h)(0x5987EC4B)
 I (..\USER\stm32f10x.h)(0x5987EC4B)
